@@ -12,9 +12,9 @@ Mac Book Pro 13インチ M2
 ### 必須インストール
 [VOICEVOX](https://voicevox.hiroshiba.jp/)       
 
-ターミナルを起動してbrewコマンドでPHPインストール
+ターミナルを起動してbrewコマンドでPHPとcurlインストール
 ```shell
-brew install php@8.0
+brew install php@8.0 curl
 ```
 
 ### 実行
