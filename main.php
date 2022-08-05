@@ -1,15 +1,15 @@
 <?php
-/**
- * APIドキュメント :
- *    GUIを立ち上げて
- *    http://localhost:50021/docs
- *    にアクセス
- */
-// 初期化
+// デフォルト音声キャラクター : 玄野武宏
+$default_speaker_id = 11;
+
+// VOICEVOX起動
+exec('sh start_voicevox.sh');
+
+// 前処理
 exec('rm -rf ./voice && mkdir ./voice');
 
 // ディレクトリ作成
-$now_date = date('Y-m-d_H:m:s',  strtotime('now'));
+$now_date = date('Y-m-d_H:m:s', strtotime('now'));
 $mkdir_root_name = './voicevox_' . $now_date;
 mkdir($mkdir_root_name);
 
@@ -17,10 +17,9 @@ mkdir($mkdir_root_name);
 $subtitles = file('subtitles.csv');
 foreach ($subtitles as $key => $row) {
     $file_subtitle_name = 'text.txt';
-    $file_subtitle = $mkdir_root_name . '/'. $file_subtitle_name;
+    $file_subtitle = $mkdir_root_name . '/' . $file_subtitle_name;
     $row = explode(',', $row);
-    // デフォルトスピーカー : ずんだもん（あまあま）
-    $speaker_id = empty($row[1]) ? 1 : str_replace(["\r\n", "\r", "\n"], '', $row[1]);
+    $speaker_id = empty($row[1]) ? $default_speaker_id : str_replace(["\r\n", "\r", "\n"], '', $row[1]);
     // 字幕文字列
     file_put_contents($file_subtitle, str_replace(["\r\n", "\r", "\n"], '', $row[0]));
 
@@ -43,3 +42,6 @@ EOF;
 
 // 後処理
 exec('rm -rf voicevox_*');
+
+// VOICEVOX停止
+exec('sh stop_voicevox.sh');
